@@ -28,6 +28,15 @@
 				(zero? lor) true
 				(pos? lor)  (recur (:r t) val)))))
 
+(defn find [t val]
+	"Returns the subtree with val as the root node. Returns nil if val is not in the tree"
+	(when t
+		(let [lor (compare val (:val t))]
+			(cond
+				(neg? lor)  (recur (:l t) val)
+				(zero? lor) t
+				(pos? lor)  (recur (:r t) val)))))
+
 (defn remove [t val]
 	"Returns the result of removing the given value from the tree"
 	)
@@ -41,3 +50,10 @@
 	(if (:r t)
 		(recur (:r t))
 		(:val t)))
+
+(defn seq [t]
+	"Returns a sequence of t, from lowest to highest"
+	(when t
+		(concat (seq (:l t)) [(:val t)] (seq (:r t)))))
+
+
